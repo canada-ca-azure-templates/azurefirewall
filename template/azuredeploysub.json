@@ -6,7 +6,7 @@
             "type": "string",
             "defaultValue": ""
         },
-        "msFirewallArray": {
+        "azureFirewallArray": {
             "type": "array",
             "metadata": {
                 "description": "Array of firewall objects."
@@ -14,24 +14,24 @@
         }
     },
     "variables": {
-        "baseVMUrl": "[concat(uri(deployment().properties.templateLink.uri, 'msfirewall.json'), parameters('containerSasToken'))]"
+        "baseVMUrl": "[concat(uri(deployment().properties.templateLink.uri, 'azurefirewall.json'), parameters('containerSasToken'))]"
     },
     "resources": [
         {
-            "name": "[concat('msfirewall-Deploy-', parameters('msFirewallArray')[copyIndex()].vnet)]",
+            "name": "[concat('azurefirewall-Deploy-', parameters('azureFirewallArray')[copyIndex()].vnet)]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
-            "resourceGroup": "[parameters('msFirewallArray')[copyIndex()].resourceGroup]",
+            "resourceGroup": "[parameters('azureFirewallArray')[copyIndex()].resourceGroup]",
             "dependsOn": [],
             "copy": {
                     "name": "obj",
-                    "count": "[length(parameters('msFirewallArray'))]"
+                    "count": "[length(parameters('azureFirewallArray'))]"
             },
             "properties": {
                 "mode": "Incremental",
                 "parameters": {
-                    "msfirewallObj": {
-                        "value": "[parameters('msFirewallArray')[copyIndex()]]"
+                    "azurefirewallObj": {
+                        "value": "[parameters('azureFirewallArray')[copyIndex()]]"
                     }
                 },
                 "templateLink": {

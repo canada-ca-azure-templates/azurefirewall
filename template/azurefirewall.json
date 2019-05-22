@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "msFirewallObj": {
+        "azureFirewallObj": {
             "type": "object",
             "metadata": {
                 "description": "Object of MS firewall objects."
@@ -10,9 +10,9 @@
         }
     },
     "variables": {
-        "fwName": "[concat(parameters('msFirewallObj').vnet, '-msfirewall')]",
+        "fwName": "[concat(parameters('azureFirewallObj').vnet, '-azurefirewall')]",
         "fwPubIpName": "[concat(variables('fwName'), '-pubip')]",
-        "dnsName": "[pspc.getValidName(pspc.getUniqueName(parameters('msFirewallObj').dnsName, uniqueString(resourceGroup().id)))]"
+        "dnsName": "[pspc.getValidName(pspc.getUniqueName(parameters('azureFirewallObj').dnsName, uniqueString(resourceGroup().id)))]"
     },
     "functions": [
         {
@@ -79,7 +79,7 @@
                         "name": "IpConf",
                         "properties": {
                             "subnet": {
-                                "id": "[concat(resourceGroup().id, '/providers/Microsoft.Network/virtualNetworks/', parameters('msFirewallObj').vnet, '/subnets/', 'AzureFirewallSubnet')]"
+                                "id": "[concat(resourceGroup().id, '/providers/Microsoft.Network/virtualNetworks/', parameters('azureFirewallObj').vnet, '/subnets/', 'AzureFirewallSubnet')]"
                             },
                             "publicIPAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('fwPubIpName'))]"
@@ -87,9 +87,9 @@
                         }
                     }
                 ],
-                "applicationRuleCollections": "[parameters('msFirewallObj').applicationRuleCollections]",
-                "networkRuleCollections": "[parameters('msFirewallObj').networkRuleCollections]",
-                "natRuleCollections": "[json(replace(string(parameters('msFirewallObj').natRuleCollections), 'FWPubIP', reference(resourceId('Microsoft.Network/publicIPAddresses',variables('fwPubIpName'))).ipAddress))]"
+                "applicationRuleCollections": "[parameters('azureFirewallObj').applicationRuleCollections]",
+                "networkRuleCollections": "[parameters('azureFirewallObj').networkRuleCollections]",
+                "natRuleCollections": "[json(replace(string(parameters('azureFirewallObj').natRuleCollections), 'FWPubIP', reference(resourceId('Microsoft.Network/publicIPAddresses',variables('fwPubIpName'))).ipAddress))]"
             }
         }
     ],

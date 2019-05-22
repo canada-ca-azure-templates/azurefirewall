@@ -18,7 +18,7 @@
                             }
                         },
                         {
-                            "name": "inside",
+                            "name": "AzureFirewallSubnet",
                             "properties": {
                                 "addressPrefix": "10.250.2.0/24"
                             }
